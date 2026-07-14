@@ -55,6 +55,27 @@ export const toggleMaintenanceServer = createServerFn({ method: "POST" })
 // --- Client/PHP-compatible wrappers ---
 
 export async function getSiteStatus() {
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+  if (supabaseUrl && supabaseKey) {
+    try {
+      const res = await fetch(`${supabaseUrl}/rest/v1/config?key=eq.status&select=value`, {
+        headers: {
+          "apikey": supabaseKey,
+          "Authorization": `Bearer ${supabaseKey}`,
+        }
+      });
+      if (res.ok) {
+        const config = await res.json();
+        const status = config && config[0] ? config[0].value : "live";
+        return { status };
+      }
+    } catch (e) {
+      console.error("Client-side Supabase status fetch failed:", e);
+    }
+  }
+
   if (typeof window !== "undefined") {
     try {
       const apiBase = (window as any).__API_BASE__ || "";
@@ -70,6 +91,58 @@ export async function getSiteStatus() {
 }
 
 export async function getAdminData(username?: string, password?: string) {
+  const ADMIN_USER = "admin_growthx_console";
+  const ADMIN_PASS = "gx_AdM!n#9824_P";
+  const SUPER_USER = "superadmin_growthx_master";
+  const SUPER_PASS = "gx_SuP3r!9951_M";
+
+  if (!username || !password) {
+    throw new Error("Username and Password are required");
+  }
+
+  const isAdmin = username === ADMIN_USER && password === ADMIN_PASS;
+  const isSuper = username === SUPER_USER && password === SUPER_PASS;
+
+  if (!isAdmin && !isSuper) {
+    throw new Error("Invalid username or password");
+  }
+
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+  if (supabaseUrl && supabaseKey) {
+    try {
+      // Fetch status
+      const configRes = await fetch(`${supabaseUrl}/rest/v1/config?key=eq.status&select=value`, {
+        headers: {
+          "apikey": supabaseKey,
+          "Authorization": `Bearer ${supabaseKey}`,
+        }
+      });
+      const config = await configRes.json();
+      const status = config && config[0] ? config[0].value : "live";
+
+      // Fetch leads
+      const leadsRes = await fetch(`${supabaseUrl}/rest/v1/leads?select=*&order=submittedAt.desc`, {
+        headers: {
+          "apikey": supabaseKey,
+          "Authorization": `Bearer ${supabaseKey}`,
+        }
+      });
+      const leads = await leadsRes.json();
+
+      return {
+        role: isSuper ? "super" : "admin",
+        status: status as "live" | "maintenance",
+        leads: Array.isArray(leads) ? leads : [],
+        totalLeads: Array.isArray(leads) ? leads.length : 0,
+      };
+    } catch (e) {
+      console.error("Client-side Supabase admin fetch failed:", e);
+      throw e;
+    }
+  }
+
   if (typeof window !== "undefined") {
     try {
       const apiBase = (window as any).__API_BASE__ || "";
@@ -98,6 +171,38 @@ export async function getAdminData(username?: string, password?: string) {
 }
 
 export async function toggleMaintenance(username?: string, password?: string, newStatus?: "live" | "maintenance") {
+  const SUPER_USER = "superadmin_growthx_master";
+  const SUPER_PASS = "gx_SuP3r!9951_M";
+
+  const isSuper = username === SUPER_USER && password === SUPER_PASS;
+  if (!isSuper) {
+    throw new Error("Unauthorized. Super Admin access required.");
+  }
+
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+  if (supabaseUrl && supabaseKey) {
+    try {
+      const res = await fetch(`${supabaseUrl}/rest/v1/config?key=eq.status`, {
+        method: "PATCH",
+        headers: {
+          "apikey": supabaseKey,
+          "Authorization": `Bearer ${supabaseKey}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ value: newStatus })
+      });
+      if (res.ok) {
+        return { success: true, status: newStatus };
+      }
+      throw new Error(`Supabase PATCH failed with status ${res.status}`);
+    } catch (e) {
+      console.error("Client-side Supabase maintenance toggle failed:", e);
+      throw e;
+    }
+  }
+
   if (typeof window !== "undefined") {
     try {
       const apiBase = (window as any).__API_BASE__ || "";

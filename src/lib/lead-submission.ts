@@ -43,6 +43,44 @@ export const submitLeadServer = createServerFn({ method: "POST" })
   });
 
 export async function submitLead(payload: LeadPayload): Promise<void> {
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+  if (supabaseUrl && supabaseKey) {
+    try {
+      const id = Math.random().toString(36).substring(2, 9);
+      const userAgent = typeof navigator !== "undefined" ? navigator.userAgent : "unknown";
+      
+      const res = await fetch(`${supabaseUrl}/rest/v1/leads`, {
+        method: "POST",
+        headers: {
+          "apikey": supabaseKey,
+          "Authorization": `Bearer ${supabaseKey}`,
+          "Content-Type": "application/json",
+          "Prefer": "resolution=merge-duplicates"
+        },
+        body: JSON.stringify({
+          id,
+          fullName: payload.fullName,
+          phone: payload.phone,
+          email: payload.email,
+          service: payload.service,
+          businessDetails: payload.businessDetails,
+          submittedAt: payload.submittedAt,
+          ipAddress: "client-side",
+          userAgent,
+        }),
+      });
+      if (res.ok) {
+        return;
+      }
+      throw new Error(`Supabase REST API failed with status ${res.status}`);
+    } catch (e) {
+      console.error("Client-side Supabase submission failed:", e);
+      throw e;
+    }
+  }
+
   if (typeof window !== "undefined") {
     try {
       const apiBase = (window as any).__API_BASE__ || "";
