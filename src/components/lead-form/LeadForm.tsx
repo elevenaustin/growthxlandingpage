@@ -78,7 +78,7 @@ export function LeadForm() {
 
   const methods = useForm<LeadFormValues>({
     resolver: zodResolver(leadSchema),
-    mode: "onChange",
+    mode: "onBlur",
     defaultValues,
   });
 
