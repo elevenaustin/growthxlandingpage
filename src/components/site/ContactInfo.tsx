@@ -20,7 +20,7 @@ const contactDetails = [
     icon: Clock,
     label: "HOURS",
     value: "Mon–Sat · 10:00 – 19:00 IST",
-    href: "#home",
+    href: "#lead-form",
     isExternal: false,
   },
   {

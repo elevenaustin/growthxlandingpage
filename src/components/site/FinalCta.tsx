@@ -1,6 +1,10 @@
 import { ArrowRight } from "lucide-react";
 import { Reveal } from "../motion/Reveal";
 
+function scrollToForm() {
+  document.getElementById("lead-form")?.scrollIntoView({ behavior: "smooth" });
+}
+
 export function FinalCta() {
   return (
     <section className="mx-auto max-w-6xl px-5 py-20">
@@ -24,15 +28,13 @@ export function FinalCta() {
           </p>
 
           <div className="relative mt-8 flex flex-col justify-center gap-4 sm:flex-row">
-            <a
-              href="https://wa.me/916374783112"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={scrollToForm}
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-4 text-sm font-bold text-white shadow-[var(--shadow-glow)] transition-transform hover:-translate-y-0.5 cursor-pointer"
             >
               Book Free Strategy Call
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </a>
+            </button>
             
             <a
               href="https://wa.me/916374783112"
