@@ -75,20 +75,7 @@ export function Header() {
             onClick={() => scrollToSection("start")}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            animate={{
-              boxShadow: [
-                "0 0 0 0 rgba(139, 92, 246, 0.4)",
-                "0 0 0 10px rgba(139, 92, 246, 0)",
-              ],
-            }}
-            transition={{
-              boxShadow: {
-                repeat: Infinity,
-                duration: 1.5,
-                ease: "easeOut",
-              },
-            }}
-            className="group relative inline-flex items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-xs font-semibold text-white shadow-[var(--shadow-glow)] cursor-pointer"
+            className="group relative inline-flex items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-xs font-semibold text-white shadow-[var(--shadow-glow)] cursor-pointer pulse-glow-btn"
           >
             Book a Free Call
             <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
@@ -120,20 +107,7 @@ export function Header() {
             <motion.button
               onClick={() => scrollToSection("start")}
               whileTap={{ scale: 0.98 }}
-              className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary py-3.5 text-sm font-semibold text-white shadow-[var(--shadow-glow)] cursor-pointer"
-              animate={{
-                boxShadow: [
-                  "0 0 0 0 rgba(139, 92, 246, 0.4)",
-                  "0 0 0 8px rgba(139, 92, 246, 0)",
-                ],
-              }}
-              transition={{
-                boxShadow: {
-                  repeat: Infinity,
-                  duration: 1.5,
-                  ease: "easeOut",
-                },
-              }}
+              className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary py-3.5 text-sm font-semibold text-white shadow-[var(--shadow-glow)] cursor-pointer pulse-glow-btn"
             >
               Book a Free Call
               <ArrowRight className="h-4 w-4" />

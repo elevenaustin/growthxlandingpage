@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Lock, RefreshCw, LogOut, Shield, Database, Users, Settings, Radio, Download, Eye, X } from "lucide-react";
 import { getAdminData, toggleMaintenance, type Lead } from "../lib/admin-actions";
 
@@ -21,8 +21,17 @@ export function AdminDashboard() {
     totalLeads: number;
   } | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [filterService, setFilterService] = useState("");
   const [autoRefresh, setAutoRefresh] = useState(true);
+
+  // Debounce search term to prevent typing lag
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 200);
+    return () => clearTimeout(handler);
+  }, [searchTerm]);
   
   // Modal & Export format states
   const [selectedLead, setSelectedLead] = useState<any | null>(null);
@@ -118,16 +127,19 @@ export function AdminDashboard() {
     }
   };
 
-  const filteredLeads = dashboardData
-    ? dashboardData.leads.filter((l: any) => {
-        const matchesSearch =
-          l.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          l.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          l.phone.includes(searchTerm);
-        const matchesService = filterService ? l.service === filterService : true;
-        return matchesSearch && matchesService;
-      })
-    : [];
+  const filteredLeads = useMemo(() => {
+    if (!dashboardData) return [];
+    const term = debouncedSearchTerm.trim().toLowerCase();
+    return dashboardData.leads.filter((l: any) => {
+      const matchesSearch = !term
+        ? true
+        : l.fullName.toLowerCase().includes(term) ||
+          l.email.toLowerCase().includes(term) ||
+          (l.phone && l.phone.includes(term));
+      const matchesService = filterService ? l.service === filterService : true;
+      return matchesSearch && matchesService;
+    });
+  }, [dashboardData, debouncedSearchTerm, filterService]);
 
   // Export action
   const handleExport = () => {

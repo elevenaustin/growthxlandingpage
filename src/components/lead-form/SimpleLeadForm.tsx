@@ -146,7 +146,7 @@ export function SimpleLeadForm() {
             value={formData.fullName}
             onChange={handleChange}
             placeholder="e.g. Priya Sharma"
-            className="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-white outline-none transition-all focus:border-primary focus:shadow-[0_0_0_3px_rgba(139,92,246,0.15)]"
+            className="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-white outline-none transition-[border-color,box-shadow,background-color] focus:border-primary focus:shadow-[0_0_0_3px_rgba(139,92,246,0.15)]"
           />
           {errors.fullName && <p className="mt-1 text-xs text-destructive">{errors.fullName}</p>}
         </div>
@@ -164,7 +164,7 @@ export function SimpleLeadForm() {
               value={formData.email}
               onChange={handleChange}
               placeholder="e.g. priya@brand.com"
-              className="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-white outline-none transition-all focus:border-primary focus:shadow-[0_0_0_3px_rgba(139,92,246,0.15)]"
+              className="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-white outline-none transition-[border-color,box-shadow,background-color] focus:border-primary focus:shadow-[0_0_0_3px_rgba(139,92,246,0.15)]"
             />
             {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
           </div>
@@ -180,7 +180,7 @@ export function SimpleLeadForm() {
               value={formData.phone}
               onChange={handleChange}
               placeholder="e.g. 9876543210"
-              className="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-white outline-none transition-all focus:border-primary focus:shadow-[0_0_0_3px_rgba(139,92,246,0.15)]"
+              className="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-white outline-none transition-[border-color,box-shadow,background-color] focus:border-primary focus:shadow-[0_0_0_3px_rgba(139,92,246,0.15)]"
             />
             {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
           </div>
@@ -196,7 +196,7 @@ export function SimpleLeadForm() {
             name="service"
             value={formData.service}
             onChange={handleChange}
-            className="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-white outline-none transition-all focus:border-primary focus:shadow-[0_0_0_3px_rgba(139,92,246,0.15)] appearance-none cursor-pointer"
+            className="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-white outline-none transition-[border-color,box-shadow,background-color] focus:border-primary focus:shadow-[0_0_0_3px_rgba(139,92,246,0.15)] appearance-none cursor-pointer"
           >
             <option value="" disabled>
               Select your required service...
@@ -222,7 +222,7 @@ export function SimpleLeadForm() {
             onChange={handleChange}
             rows={3}
             placeholder="e.g. E-commerce apparel brand. Goal is to scale monthly sales to 10L with ROAS > 3.0."
-            className="w-full resize-none rounded-xl border border-border bg-card px-4 py-3 text-sm text-white outline-none transition-all focus:border-primary focus:shadow-[0_0_0_3px_rgba(139,92,246,0.15)]"
+            className="w-full resize-none rounded-xl border border-border bg-card px-4 py-3 text-sm text-white outline-none transition-[border-color,box-shadow,background-color] focus:border-primary focus:shadow-[0_0_0_3px_rgba(139,92,246,0.15)]"
           />
           {errors.businessDetails && <p className="mt-1 text-xs text-destructive">{errors.businessDetails}</p>}
         </div>
