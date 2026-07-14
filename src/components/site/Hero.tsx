@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
-import { Sparkles } from "lucide-react";
-import { LeadForm } from "../lead-form/LeadForm";
+import { Sparkles, ArrowRight } from "lucide-react";
 
 export function Hero() {
   return (
@@ -45,17 +44,25 @@ export function Hero() {
           transition={{ duration: 0.7, delay: 0.2 }}
           className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg"
         >
-          Fill out the quick 30-second form below to get a custom ads growth plan and book your free strategy call.
+          Get a custom ads growth plan for your business and scale your sales with our experts.
         </motion.p>
 
-        {/* Form Submission Block */}
+        {/* Call to Action Button */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="mt-10"
+          className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
         >
-          <LeadForm />
+          <a
+            href="https://wa.me/916374783112"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center justify-center gap-3 rounded-full bg-primary px-8 py-4 text-base font-bold text-white shadow-[var(--shadow-glow)] transition-transform hover:-translate-y-0.5 cursor-pointer"
+          >
+            Book Free Strategy Call
+            <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
+          </a>
         </motion.div>
 
       </div>
