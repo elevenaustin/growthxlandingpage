@@ -4,13 +4,7 @@ import type { LeadForm } from "../schema";
 
 export function NameStep() {
   const { register, formState } = useFormContext<LeadForm>();
-  const ref = useRef<HTMLInputElement | null>(null);
   const reg = register("fullName");
-
-  useEffect(() => {
-    const t = setTimeout(() => ref.current?.focus(), 250);
-    return () => clearTimeout(t);
-  }, []);
 
   const error = formState.errors.fullName?.message;
 
@@ -25,10 +19,6 @@ export function NameStep() {
 
       <input
         {...reg}
-        ref={(el) => {
-          reg.ref(el);
-          ref.current = el;
-        }}
         type="text"
         autoComplete="name"
         placeholder="e.g. Priya Sharma"

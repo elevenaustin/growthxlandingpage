@@ -1,16 +1,9 @@
-import { useEffect, useRef } from "react";
 import { useFormContext } from "react-hook-form";
 import type { LeadForm } from "../schema";
 
 export function EmailStep() {
   const { register, formState } = useFormContext<LeadForm>();
-  const ref = useRef<HTMLInputElement | null>(null);
   const reg = register("email");
-
-  useEffect(() => {
-    const t = setTimeout(() => ref.current?.focus(), 250);
-    return () => clearTimeout(t);
-  }, []);
 
   const error = formState.errors.email?.message;
 
@@ -25,10 +18,6 @@ export function EmailStep() {
       
       <input
         {...reg}
-        ref={(el) => {
-          reg.ref(el);
-          ref.current = el;
-        }}
         type="email"
         autoComplete="email"
         placeholder="e.g. priya@business.com"

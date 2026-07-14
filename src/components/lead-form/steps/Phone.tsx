@@ -1,16 +1,9 @@
-import { useEffect, useRef } from "react";
 import { useFormContext } from "react-hook-form";
 import type { LeadForm } from "../schema";
 
 export function PhoneStep() {
   const { register, formState } = useFormContext<LeadForm>();
-  const ref = useRef<HTMLInputElement | null>(null);
   const reg = register("phone");
-
-  useEffect(() => {
-    const t = setTimeout(() => ref.current?.focus(), 250);
-    return () => clearTimeout(t);
-  }, []);
 
   const error = formState.errors.phone?.message;
 
@@ -25,10 +18,6 @@ export function PhoneStep() {
 
       <input
         {...reg}
-        ref={(el) => {
-          reg.ref(el);
-          ref.current = el;
-        }}
         type="tel"
         inputMode="tel"
         placeholder="e.g. 9876543210"

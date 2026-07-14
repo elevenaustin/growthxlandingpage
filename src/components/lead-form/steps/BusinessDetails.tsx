@@ -1,16 +1,9 @@
-import { useEffect, useRef } from "react";
 import { useFormContext } from "react-hook-form";
 import type { LeadForm } from "../schema";
 
 export function BusinessDetailsStep() {
   const { register, formState } = useFormContext<LeadForm>();
-  const ref = useRef<HTMLTextAreaElement | null>(null);
   const reg = register("businessDetails");
-
-  useEffect(() => {
-    const t = setTimeout(() => ref.current?.focus(), 250);
-    return () => clearTimeout(t);
-  }, []);
 
   const error = formState.errors.businessDetails?.message;
 
@@ -27,10 +20,6 @@ export function BusinessDetailsStep() {
 
       <textarea
         {...reg}
-        ref={(el) => {
-          reg.ref(el);
-          ref.current = el;
-        }}
         rows={4}
         placeholder="e.g. We are an e-commerce brand selling leather bags. We want to scale our sales using Meta Ads..."
         className="mt-6 w-full resize-none rounded-2xl border border-border bg-card px-4 py-3 text-base text-white outline-none transition-shadow focus:border-primary focus:shadow-[0_0_0_3px_color-mix(in_oklab,var(--primary)_15%,transparent)]"
